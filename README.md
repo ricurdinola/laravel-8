@@ -1,8 +1,12 @@
 # Docker: Web Stack
-El proyecto tiene como objetivo instalar rápidamente un ambiente de desarrollo local para trabajar con [PHP](https://www.php.net/) y [MySQL](https://www.mysql.com/)
-utilizando [Docker](https://www.docker.com). 
+El proyecto tiene como objetivo instalar rápidamente un ambiente de desarrollo local que pueda ser utilizado como base para proyectos. A continuación, se detalla el Stack.
 
-Stack Utilizado: Apache, MySQL, PHP, Composer y Node
+* Servidor Web: Apache y PHP 8 de la imagen de Docker php:7.4.0-apache (por defecto)
+* Node Versión 14.16.0
+* Composer
+* [Laravel 8](https://laravel.com/docs/8.x/)
+
+Base de Datos: [MySQL 8.0](https://www.mysql.com/)
 
 ## Requerimientos
 * [Docker Desktop](https://www.docker.com/products/docker-desktop)
@@ -36,5 +40,33 @@ Adicionalmente se pueden modificar otros parámetros, como ser:
 * `/www/` carpeta para los archivos Laravel del proyecto.
 
 ## Instalar el ambiente de desarrollo
-Ingresar a la carpeta docker y ejecutar build.sh
+
+### Levantar los contenedores
+Ingresar a la carpeta docker y ejecutar desde la línea de comandos: docker-compose up -d --build. Alternativamente se puede ejecutar el archivo build.sh
+
+### Configurar el .env
+* Copiar el archivo www/.env.example a un archivo /www/.env. 
+* Configurar el .env. Al menos las opciones APP_ y DB_.
+* Como nos encontramos dentro del stack de docker, en DB_HOST se puede ingresar el _nombre del contenedor y el puerto real_ (no el publicado en el servidor).
+  Ej:
+  `DB_CONNECTION=mysql`
+  `DB_HOST=db`
+  `DB_PORT=3306`
+  `DB_DATABASE=laravel`
+  `DB_USERNAME=user`
+  `DB_PASSWORD=1234`
+
+### Ejecutar Comandos desde el contenedor.
+Una vez instalado y levantado los contenedores, ingresar al conenedor y ejecutar los siguientes comandos:
+* composer install: Descarga las dependencias de la carpeta vendor que no forman parte del repositorio
+* `php artisan key:generate`: Genera la App Key en el .env
+* `php artisan storage:link`: Genera el Link Simbólico
+* `php artisan migrate`: Crea las Tablas Básicas del Sistema
+
+#### Permisos
+Si se ejecutaron los comandos desde la consola del contenedor, es probable que tengamos problemas de permisos. Otorgar acceso al www-data 
+Desde el terminal de la máquina ejecutar:
+* sudo chown [owner]:www-data storage -R
+* sudo chmod 775 storage -R
+
 
