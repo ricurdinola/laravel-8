@@ -1,7 +1,7 @@
-# Docker: Web Stack
+# Docker: PHP & MySQL & Laravel
 El proyecto tiene como objetivo instalar rápidamente un ambiente de desarrollo local que pueda ser utilizado como base para proyectos. A continuación, se detalla el Stack.
 
-* Servidor Web: Apache y PHP 8 de la imagen de Docker php:7.4.0-apache (por defecto)
+* Servidor Web: Apache y PHP 8 de la imagen de Docker php:8-apache (por defecto)
 * Node Versión 14.16.0
 * Composer
 * [Laravel 8](https://laravel.com/docs/8.x/)
